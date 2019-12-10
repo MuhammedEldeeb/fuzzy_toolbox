@@ -3,9 +3,10 @@ class LinguisticTerm():
         self.name = ''
         self.type = False  # false for triangle and true for trapezoidal
         self.points = []  # points of the term on the x axis
+        self.membershipFunc = 0
 
     def show(self):
-        return 'term : ' + self.name + ' (' +  str(self.type) + ') ' + str(self.points)
+        return 'term : ' + self.name + ' (' +  str(self.type) + ') ' + str(self.points) + ' ((' + str(self.membershipFunc) +'))'
 
 class LinguisticVar():
     def __init__(self):
@@ -24,15 +25,23 @@ class Rule():
         self.size = 0
         self.premises = []
         self.predicts = []
-        self.output = ''
+        self.output = None
 
     def show(self):
-        prem , pred = 0
-        for _ in range(self.size):
-            rule = 'rule : ('
-            rule += self.premises[prem] + self.predicts[pred]
-            prem += 1
-            pred += 1
-        rule += ')' + self.output
+        n = len(self.predicts)
+        for i in range(n):
+            print(self.premises[i].show() + self.predicts[i])
+        print(self.premises[n].show())
 
-        print(rule)
+        print( '==> (' + self.output.left , self.output.equal, self.output.right + ') ((' + str(self.output.value) + '))')
+        # print('==>' , self.output.show())
+
+class Premise():
+    def __init__(self):
+        self.left = ''
+        self.equal = True
+        self.right = ''
+        self.value = 0
+
+    def show(self):
+        return '(' + self.left + ' ' + str(self.equal) + ' ' + self.right + ') ((' + str(self.value) + '))'

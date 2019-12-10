@@ -1,26 +1,50 @@
 2
 position 10
-2
+5
 Left trapezoidal
 0 0 10 35
 LeftCenter triangle
 30 40 50
+Center triangle
+45 50 55
+RightCenter triangle
+50 60 70
+Right trapezoidal
+65 90 100 100
 angel -45
-2
+7
 RBelow triangle
 -90 -45 9
 RUpper triangle
 -9 23 54
+RVertical triangle
+36 63 90
+Vertical triangle
+72 90 108
+LVertical triangle
+90 117 144
+LUpper triangle
+126 157 189
+LBelow triangle
+171 225 270
 firePosition
-3
+7
 NegBig triangle
 -30 -30 -15
 NegMed triangle
 -25 -15 -5
 NegSm triangle
 -12 -6 0
+Zero triangle
+-5 0 5
+PosSm triangle
+0 6 12
+PosMed triangle
+5 15 25
+PosBig triangle
+15 30 30
 4
 2 position = Left AND angel = RBelow then firePosition = PosSm
-2 ANGEL = RBelow OR position = LeftCenter then firePosition = PosMed
+2 angel = RBelow OR position = LeftCenter then firePosition = PosMed
 2 position = Center AND angel = RBelow then firePosition = NegSm
 2 position = Center OR angel = LBelow then firePosition = NegMed
