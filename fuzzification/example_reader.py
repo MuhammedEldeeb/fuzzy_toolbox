@@ -1,5 +1,4 @@
 from fuzzification.fuzzy_set import LinguisticVar, LinguisticTerm
-
 def readTerms(f , num_of_terms):
     terms = []
     for term in range(num_of_terms):
@@ -60,10 +59,11 @@ fuzzy_sets.append(outVar)
 
 """read the rules"""
 num_of_rules = int(f.readline())
-print(num_of_rules)
-rules = readRules(f, num_of_rules)
+# print(num_of_rules)
+# rules = readRules(f, num_of_rules)
 
 f.close()
-
+def set_fuzzySets():
+    return fuzzy_sets
 # for f in fuzzy_sets:
 #     f.show()
