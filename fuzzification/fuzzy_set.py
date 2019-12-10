@@ -5,6 +5,33 @@ class LinguisticTerm():
         self.points = []  # points of the term on the x axis
         self.membershipFunc = 0
 
+    def get_points(self):
+        if self.type:
+            return [[self.points[0], 0], [self.points[1], 1], [self.points[2], 1] , [self.points[3] , 3]]
+        else:
+            return [[self.points[0] , 0] , [self.points[1] , 1] , [self.points[2] , 0]]
+
+    def getArea(self):
+        points = self.get_points()
+        area = 0
+        for i in range(0, len(points) - 1):
+            area += (points[i][0] * points[i + 1][1]) - \
+                    (points[i + 1][0] * points[i][1])
+        return abs(area) * 0.5
+
+    def getCentroid(self):
+        points = self.get_points()
+        sum = 0
+        for i in range(0, len(points) - 1):
+            sum += (points[i][0] + points[i + 1][0]) * \
+                   ((points[i][0] * points[i + 1][1]) -
+                    (points[i + 1][0] * points[i][1]))
+
+        value = abs(sum) * (1 / (6 * self.getArea()))
+
+        return value
+
+
     def show(self):
         return 'term : ' + self.name + ' (' +  str(self.type) + ') ' + str(self.points) + ' ((' + str(self.membershipFunc) +'))'
 
@@ -25,7 +52,7 @@ class Rule():
         self.size = 0
         self.premises = []
         self.predicts = []
-        self.output = None
+        self.output = None # obj of premise type
 
     def show(self):
         n = len(self.predicts)
@@ -41,7 +68,7 @@ class Premise():
         self.left = ''
         self.equal = True
         self.right = ''
-        self.value = 0
+        self.value = 0  # evaluation of the premise
 
     def show(self):
         return '(' + self.left + ' ' + str(self.equal) + ' ' + self.right + ') ((' + str(self.value) + '))'

@@ -11,8 +11,8 @@ fuzzysets = e.get_fuzzySets()
 """
 
 f.set_fuzzySets(fuzzysets)
-f.drawVars(inputs=True)
-f.drawVars(inputs=False)
+# f.drawVars(inputs=True)
+# f.drawVars(inputs=False)
 
 
 """i should call f.setMemberFunction() ==> will do it mannually until it is working"""
@@ -31,7 +31,7 @@ for var in f.fuzzySets:
                 term.membershipFunc = 0.4
 """ suppose the f.setMemberFunction() get run and will continue"""
 
-"""
+"""*******
 (2) Apply Rules (Inference)
 """
 # get the rules from the example
@@ -45,16 +45,14 @@ f.apply_rules()
 """
 (3) Defuzzification
 """
-
-
-
+print(f.duffuzzify() )
 
 """
 for testing
 """
-for a in f.fuzzySets:
-    a.show()
-
-for r in f.rules:
-    r.show()
+# for a in f.fuzzySets:
+#     a.show()
+#
+# for r in f.rules:
+#     r.show()
 print('Done')

@@ -4,9 +4,14 @@ class Fuzzifier():
     def __init__(self):
         self.fuzzySets = []
         self.rules = []
+        self.output = None
 
     def set_fuzzySets(self , fuzzySets):
-        self.fuzzySets = fuzzySets
+        for f in fuzzySets:
+            if f.type:
+                self.fuzzySets.append(f)
+            else:
+                self.output = f
 
     def set_rules(self , rules):
         self.rules = rules
@@ -50,8 +55,8 @@ class Fuzzifier():
                     premise.value = 1 - term.membershipFunc
 
     def drawVars(self, inputs=True):
-        for var in self.fuzzySets:
-            if var.type == inputs:
+        if inputs:
+            for var in self.fuzzySets:
                 plt.figure(figsize=(12, 5))
                 ax = plt.subplot()
                 for term in var.terms:
@@ -59,36 +64,38 @@ class Fuzzifier():
                         ax.plot(term.points , [0 , 1 , 0], label=term.name)
                     else:  # trapezoidal
                         ax.plot(term.points , [0 , 1 , 1 , 0], label=term.name)
-                if inputs:
-                    ax.bar([var.value], [1], width=0.1, color='r', label='crisp_value')
+                ax.bar([var.value], [1], width=0.1, color='r', label='crisp_value')
                 ax.set_xlabel(var.name)
                 ax.set_ylabel('Member Func')
                 ax.set_title(var.name + ' vs. Member Func')
                 ax.legend()
                 plt.show()
+        else:
+            plt.figure(figsize=(12,5))
+            ax = plt.subplot()
+            for term in self.output.terms:
+                if term.type == False:  # triangle
+                    ax.plot(term.points, [0, 1, 0], label=term.name)
+                else:  # trapezoidal
+                    ax.plot(term.points, [0, 1, 1, 0], label=term.name)
+            ax.set_xlabel(self.output.name)
+            ax.set_ylabel('Member Func')
+            ax.set_title(self.output.name + ' vs. Member Func')
+            ax.legend()
+            plt.show()
 
-    def draw_output(self):
-        for var in self.fuzzySets:
-            if var.type == False:
-                plt.figure(figsize=(12, 5))
-                ax = plt.subplot()
-                for term in var.terms:
-                    if term.type == False:  # triangle
-                        ax.plot(term.points , [0 , 1 , 0], label=term.name)
-                    else:  # trapezoidal
-                        ax.plot(term.points , [0 , 1 , 1 , 0], label=term.name)
-                ax.set_xlabel(var.name)
-                ax.set_ylabel('Member Func')
-                ax.set_title(var.name + ' vs. Member Func')
-                ax.legend()
-                plt.show()
-
-    def get_centroid(self, term):
-        return sum(term.points)/len(term.points)
 
     def duffuzzify(self):
-        numerator , denominator = 0
-        for var in self.fuzzySets:
-            if var.type == False:  # if it is an output
-                for term in var.terms:
-                    pass
+        numerator = 0
+        denominator = 0
+        for term in self.output.terms:
+            for r in self.rules:
+                # print('*******************' ,len(r.output.left) , len(self.output.name).strip() )
+                # print('*******************' ,r.output.right , type(r.output.right) , term.name , type(term.name))
+                # print('---------------------------------')
+                if (r.output.left.strip() == self.output.name.strip()) and (r.output.right.strip() == term.name.strip()):
+                    # print('VVVVVVVVVVVVVVVVVVVVVVVVVVVVV')
+                    numerator += (r.output.value * term.getCentroid())
+                    denominator += r.output.value
+                    # print('hello' , numerator , denominator)
+        return numerator/denominator
