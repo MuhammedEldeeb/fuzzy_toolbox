@@ -11,7 +11,6 @@ f = Fuzzifier()
 fuzzysets = e.get_fuzzySets()
 f.set_fuzzySets(fuzzysets)
 f.drawVars(inputs=True)
-f.drawVars(inputs=False)
 f.fuzzify()
 
 print('FUZZIFICATION')
@@ -40,4 +39,6 @@ print('--------------------------------------------')
 (3) Defuzzification
 """
 print('DEFUZZIFICATION')
-print('predicted value of ' + f.output.name + ' = ' + str(f.duffuzzify()))
+df = f.duffuzzify()
+print('predicted value of ' + f.output.name + ' = ' + str(df))
+f.drawVars(inputs=False, value=df )

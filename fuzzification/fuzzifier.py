@@ -52,7 +52,7 @@ class Fuzzifier:
                 elif var.name == premise.left and term.name == premise.right and premise.equal == False:
                     premise.value = 1 - term.membershipFunc
 
-    def drawVars(self, inputs=True):
+    def drawVars(self, inputs=True , value=0):
         if inputs:
             for var in self.fuzzySets:
                 plt.figure(figsize=(12, 5))
@@ -62,7 +62,7 @@ class Fuzzifier:
                         ax.plot(term.points , [0 , 1 , 0], label=term.name)
                     else:  # trapezoidal
                         ax.plot(term.points , [0 , 1 , 1 , 0], label=term.name)
-                ax.bar([var.value], [1], width=0.1, color='r', label='crisp_value')
+                ax.bar([var.value], [1], width=0.2, color='r', label='crisp_value')
                 ax.set_xlabel(var.name)
                 ax.set_ylabel('Member Func')
                 ax.set_title(var.name + ' vs. Member Func')
@@ -76,6 +76,7 @@ class Fuzzifier:
                     ax.plot(term.points, [0, 1, 0], label=term.name)
                 else:  # trapezoidal
                     ax.plot(term.points, [0, 1, 1, 0], label=term.name)
+            ax.bar([value], [1], width=0.2, color='r', label='crisp_value')
             ax.set_xlabel(self.output.name)
             ax.set_ylabel('Member Func')
             ax.set_title(self.output.name + ' vs. Member Func')

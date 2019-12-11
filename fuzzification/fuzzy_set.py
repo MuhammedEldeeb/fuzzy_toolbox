@@ -131,7 +131,7 @@ class Equation:
         equation = self.get_equation()
         # print(equation[2][1])
         if equation[0] is None:
-            return None
+            return 1
         else:
             return (equation[0] * x) + equation[1]
 
