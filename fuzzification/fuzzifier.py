@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-class Fuzzifier():
-
+from fuzzification.fuzzy_set import in_zone
+class Fuzzifier:
     def __init__(self):
         self.fuzzySets = []
         self.rules = []
@@ -24,8 +24,6 @@ class Fuzzifier():
 
         # get value of the output of the rules
         self.evaluate_rules()
-
-
 
     def evaluate_rules(self):
         for rule in self.rules:
@@ -84,18 +82,28 @@ class Fuzzifier():
             ax.legend()
             plt.show()
 
-
     def duffuzzify(self):
         numerator = 0
         denominator = 0
         for term in self.output.terms:
             for r in self.rules:
-                # print('*******************' ,len(r.output.left) , len(self.output.name).strip() )
-                # print('*******************' ,r.output.right , type(r.output.right) , term.name , type(term.name))
-                # print('---------------------------------')
                 if (r.output.left.strip() == self.output.name.strip()) and (r.output.right.strip() == term.name.strip()):
-                    # print('VVVVVVVVVVVVVVVVVVVVVVVVVVVVV')
                     numerator += (r.output.value * term.getCentroid())
                     denominator += r.output.value
-                    # print('hello' , numerator , denominator)
-        return numerator/denominator
+        return (numerator/denominator)
+
+    def fuzzify(self):
+        for var in self.fuzzySets:
+            for term in var.terms:
+                term.set_equations()
+
+        self.setMemberFunction()
+                # print(var.name, term.name, term.equations[0].zone) # not complete
+
+    def setMemberFunction(self):
+        for var in self.fuzzySets:
+            crisp = var.value
+            for term in var.terms:
+                for eq in term.equations:
+                    if in_zone(crisp, eq.zone):
+                        term.membershipFunc = (eq.get_y(crisp))
